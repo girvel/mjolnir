@@ -1,0 +1,12 @@
+@font-face {
+  font-family: JetBrains Mono;
+  src: url(/static/fonts/JetBrainsMonoNerdFontMono-Regular.ttf);
+}
+
+body {
+  width: 800px;
+  background-color: #1a1b1e;
+  margin: 0 auto;
+  font-family: JetBrains Mono;
+  color: white;
+}
