@@ -59,6 +59,12 @@ services:
       postgres:
         condition: service_healthy
 
+  shadowsocks:
+    build: shadowsocks
+    container_name: shadowsocks
+    ports:
+    - "1080:1080"
+
 
 volumes:
   grafana-storage:
