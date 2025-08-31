@@ -22,6 +22,15 @@ services:
     - "host.docker.internal:host-gateway"
     restart: unless-stopped
 
+  mosquitto:
+    image: eclipse-mosquitto
+    container_name: mosquitto
+    ports:
+    - "1883:1883"
+    restart: unless-stopped
+    volumes:
+    - "./mosquitto.conf:/mosquitto/config/mosquitto.conf"
+
 volumes:
   grafana-storage:
   prometheus-storage:
