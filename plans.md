@@ -7,3 +7,4 @@
 - [ ] connect grafana to local metrics
 - [ ] receiver for meteostation
 
+- [ ] BACK UP VOLUMES!
