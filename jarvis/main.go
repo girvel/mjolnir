@@ -36,7 +36,7 @@ func main() {
 
 	// step 1: collect information
     prompt_1 := fmt.Sprintf(
-		string(must(os.ReadFile("./prompt.txt"))),
+		string(must(os.ReadFile("./prompts/step_1.txt"))),
 		string(must(os.ReadFile("../homepage/docs/swagger.json"))),
 		userInput,
 	)
@@ -64,7 +64,7 @@ func main() {
 
 	// step 2: respond to user
 	prompt_2 := fmt.Sprintf(
-		string(must(os.ReadFile("prompt_2.txt"))),
+		string(must(os.ReadFile("./prompts/step_2.txt"))),
 		info,
 		userInput,
 	)
