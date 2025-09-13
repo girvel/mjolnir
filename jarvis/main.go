@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -10,19 +9,11 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
-	"strings"
+
+	jarvis "github.com/girvel/mjolnir/jarvis/src"
 )
 
 // To interact with Ollama
-type OllamaRequest struct {
-    Model  string `json:"model"`
-    Prompt string `json:"prompt"`
-    Stream bool   `json:"stream"`
-}
-
-type OllamaResponse struct {
-    Response string `json:"response"`
-}
 
 // The structure your LLM should output
 type APICall struct {
@@ -39,86 +30,40 @@ func must[T any](result T, err error) T {
 }
 
 func main() {
+	// read user request
 	reader := bufio.NewReader(os.Stdin)
 	userInput, _ := reader.ReadString('\n')
 
-    // 1. Construct the prompt for the LLM
-    prompt := string(must(os.ReadFile("./prompt.txt")))
-	apiSpec := string(must(os.ReadFile("../homepage/docs/swagger.json")))
-
-	prompt = fmt.Sprintf(prompt, apiSpec, userInput)
-
-	fmt.Println("PROMPT:", prompt);
-
-    // 2. Send the request to Ollama
-    ollamaReq := OllamaRequest{
-        Model:  "llama3",
-        Prompt: prompt,
-        Stream: false,
-    }
-    reqBody, _ := json.Marshal(ollamaReq)
-
-    resp, err := http.Post("http://localhost:11434/api/generate", "application/json", bytes.NewBuffer(reqBody))
-    if err != nil {
-        log.Fatalf("Error calling Ollama: %v", err)
-		return
-    }
-    defer resp.Body.Close()
-
-    body, _ := io.ReadAll(resp.Body)
-    var ollamaResp OllamaResponse
-    if err := json.Unmarshal(body, &ollamaResp); err != nil {
-        log.Fatalf("Error decoding Ollama response: %v", err)
-		return
-    }
-
-    // Clean up the LLM's output to get just the JSON
-    llmOutput := strings.TrimSpace(ollamaResp.Response)
-    fmt.Printf("LLM Output: `%s`\n", llmOutput)
+	// step 1: collect information
+    prompt_1 := fmt.Sprintf(
+		string(must(os.ReadFile("./prompt.txt"))),
+		string(must(os.ReadFile("../homepage/docs/swagger.json"))),
+		userInput,
+	)
+	response_1 := jarvis.Prompt(prompt_1)
 
 	var apiCall APICall
-	if err := json.Unmarshal([]byte(llmOutput), &apiCall); err != nil {
-	    log.Fatalf("Error decoding LLM-generated API call: %v", err)
+	if err := json.Unmarshal([]byte(response_1), &apiCall); err != nil {
+	    slog.Error("Error decoding LLM-generated API call", "err", err)
 		return
 	}
 
-	resp, err = http.Get("http://" + apiCall.Route)
+	resp, err := http.Get("http://" + apiCall.Route)
 	if err != nil {
 	    log.Fatalf("Error in API call: %v", err)
 	}
 	defer resp.Body.Close()
 
-	body, _ = io.ReadAll(resp.Body)
+	info, _ := io.ReadAll(resp.Body)
 
+	// step 2: respond to user
 	prompt_2 := fmt.Sprintf(
 		string(must(os.ReadFile("prompt_2.txt"))),
-		string(body),
+		string(info),
 		userInput,
 	)
 
-	fmt.Println("PROMPT #2:", prompt_2);
+	response_2 := jarvis.Prompt(prompt_2)
 
-	ollamaReq = OllamaRequest{
-	    Model: "llama3",
-		Prompt: prompt_2,
-		Stream: false,
-	}
-    reqBody, _ = json.Marshal(ollamaReq)
-
-    resp, err = http.Post("http://localhost:11434/api/generate", "application/json", bytes.NewBuffer(reqBody))
-    if err != nil {
-        log.Fatalf("Error calling Ollama: %v", err)
-		return
-    }
-    defer resp.Body.Close()
-
-    body, _ = io.ReadAll(resp.Body)
-    if err := json.Unmarshal(body, &ollamaResp); err != nil {
-        log.Fatalf("Error decoding Ollama response: %v", err)
-		return
-    }
-
-    // Clean up the LLM's output to get just the JSON
-    llmOutput = strings.TrimSpace(ollamaResp.Response)
-    fmt.Printf("LLM Output 2: `%s`\n", llmOutput)
+	fmt.Println(response_2)
 }
