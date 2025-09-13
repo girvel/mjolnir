@@ -1,13 +1,15 @@
 package main
 
 import (
-    "bytes"
-    "encoding/json"
-    "fmt"
-    "io"
-    "log"
-    "net/http"
-    "strings"
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io"
+	"log"
+	"log/slog"
+	"net/http"
+	"os"
+	"strings"
 )
 
 // To interact with Ollama
@@ -28,22 +30,29 @@ type API_Call struct {
     Color  string `json:"color,omitempty"`
 }
 
+func must[T any](result T, err error) T {
+    if err != nil {
+        slog.Error("initialization failed", "error", err)
+        panic("must() failed")
+    }
+    return result
+}
+
 func main() {
 	// Example user input
-    userInput := "Turn the living room light on and set it to red"
 
     // 1. Construct the prompt for the LLM
-    prompt := fmt.Sprintf(`
-        You are an AI assistant for a smart home. Your task is to translate human language into a JSON object representing an API call.
-        The available actions are "turn_on", "turn_off", and "set_color".
-        The only available device is "living_room_light".
-        Based on the user's request: "%s", create a JSON object with the action, device, and color if specified.
-        Only output the JSON object, nothing else.
-    `, userInput)
+    prompt := string(must(os.ReadFile("./prompt.txt")))
+	apiSpec := string(must(os.ReadFile("../homepage/docs/swagger.json")))
+    userInput := "Tell me the address of Grafana"
+
+	prompt = fmt.Sprintf(prompt, apiSpec, userInput)
+
+	fmt.Println("PROMPT:", prompt);
 
     // 2. Send the request to Ollama
     ollamaReq := OllamaRequest{
-        Model:  "tinydolphin",
+        Model:  "llama3",
         Prompt: prompt,
         Stream: false,
     }
