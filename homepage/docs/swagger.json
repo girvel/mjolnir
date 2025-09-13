@@ -1,0 +1,21 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Website with information about the home server",
+        "title": "thor1 homepage",
+        "contact": {}
+    },
+    "host": "thor1",
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Provides an overview of the server",
+                "produces": [
+                    "text/html"
+                ],
+                "summary": "Homepage",
+                "responses": {}
+            }
+        }
+    }
+}

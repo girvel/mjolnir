@@ -1,0 +1,14 @@
+host: thor1
+info:
+  contact: {}
+  description: Website with information about the home server
+  title: thor1 homepage
+paths:
+  /:
+    get:
+      description: Provides an overview of the server
+      produces:
+      - text/html
+      responses: {}
+      summary: Homepage
+swagger: "2.0"
