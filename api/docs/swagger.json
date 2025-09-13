@@ -4,7 +4,7 @@
         "title": "API for local IoT network",
         "contact": {}
     },
-    "host": "thor1",
+    "host": "thor1:8080",
     "paths": {
         "/sensors": {
             "get": {

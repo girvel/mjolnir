@@ -11,7 +11,7 @@ import (
 // @title API for local IoT network
 // @description
 
-// @host thor1
+// @host thor1:8080
 
 func main() {
     router := gin.Default()

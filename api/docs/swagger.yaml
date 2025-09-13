@@ -6,7 +6,7 @@ definitions:
       temperature:
         type: number
     type: object
-host: thor1
+host: thor1:8080
 info:
   contact: {}
   title: API for local IoT network

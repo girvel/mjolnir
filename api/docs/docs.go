@@ -50,7 +50,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
-	Host:             "thor1",
+	Host:             "thor1:8080",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "API for local IoT network",
