@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
@@ -38,10 +39,12 @@ func must[T any](result T, err error) T {
 }
 
 func main() {
+	reader := bufio.NewReader(os.Stdin)
+	userInput, _ := reader.ReadString('\n')
+
     // 1. Construct the prompt for the LLM
     prompt := string(must(os.ReadFile("./prompt.txt")))
 	apiSpec := string(must(os.ReadFile("../homepage/docs/swagger.json")))
-    userInput := "What is thor1?"
 
 	prompt = fmt.Sprintf(prompt, apiSpec, userInput)
 
