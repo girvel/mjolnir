@@ -13,9 +13,6 @@ import (
 	jarvis "github.com/girvel/mjolnir/jarvis/src"
 )
 
-// To interact with Ollama
-
-// The structure your LLM should output
 type APICall struct {
     Route *string `json:"route"`
     Args map[string]any `json:"args"`
@@ -38,6 +35,7 @@ func main() {
     prompt_1 := fmt.Sprintf(
 		string(must(os.ReadFile("./prompts/step_1.txt"))),
 		string(must(os.ReadFile("../homepage/docs/swagger.json"))),
+		string(must(os.ReadFile("../api/docs/swagger.json"))),
 		userInput,
 	)
 	response_1 := jarvis.Prompt(prompt_1)

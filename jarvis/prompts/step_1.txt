@@ -16,6 +16,9 @@ Based on the user's request and the provided API specification, you must decide 
 
 ---
 **API Specification:**
+
+Homepage:
+
 ```json
 {
     "swagger": "2.0",
@@ -54,6 +57,15 @@ Based on the user's request and the provided API specification, you must decide 
 **Now, complete the following task:**
 
 **API Specification:**
+
+Homepage:
+
+```json
+%s
+```
+
+API:
+
 ```json
 %s
 ```
