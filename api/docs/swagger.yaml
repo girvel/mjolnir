@@ -1,0 +1,24 @@
+definitions:
+  api.SensorsOutput:
+    properties:
+      humidity:
+        type: number
+      temperature:
+        type: number
+    type: object
+host: thor1
+info:
+  contact: {}
+  title: API for local IoT network
+paths:
+  /sensors:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/api.SensorsOutput'
+      summary: Request temperature & humidity values from sensors
+swagger: "2.0"

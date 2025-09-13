@@ -1,0 +1,39 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "API for local IoT network",
+        "contact": {}
+    },
+    "host": "thor1",
+    "paths": {
+        "/sensors": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Request temperature \u0026 humidity values from sensors",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.SensorsOutput"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.SensorsOutput": {
+            "type": "object",
+            "properties": {
+                "humidity": {
+                    "type": "number"
+                },
+                "temperature": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}
