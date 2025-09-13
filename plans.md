@@ -1,10 +1,10 @@
 # Plans
 
-- [ ] sslocal service
+- [x] sslocal service
 - [ ] home page
   - [ ] access outside
   - [ ] login
 - [ ] connect grafana to local metrics
-- [ ] receiver for meteostation
+- [x] receiver for meteostation
 
 - [ ] BACK UP VOLUMES!

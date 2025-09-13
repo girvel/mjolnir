@@ -18,6 +18,12 @@ ul {
 
 li::before {
   content: "- ";
+  white-space: pre;
+}
+
+li li::before {
+  content: "  - ";
+  white-space: pre;
 }
 
 a {
