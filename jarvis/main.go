@@ -17,7 +17,7 @@ import (
 
 // The structure your LLM should output
 type APICall struct {
-    Route string `json:"route"`
+    Route *string `json:"route"`
     Args map[string]any `json:"args"`
 }
 
@@ -48,18 +48,24 @@ func main() {
 		return
 	}
 
-	resp, err := http.Get("http://" + apiCall.Route)
-	if err != nil {
-	    log.Fatalf("Error in API call: %v", err)
-	}
-	defer resp.Body.Close()
+	var info string
+	if apiCall.Route != nil {
+		resp, err := http.Get("http://" + *apiCall.Route)
+		if err != nil {
+			log.Fatalf("Error in API call: %v", err)
+		}
+		defer resp.Body.Close()
 
-	info, _ := io.ReadAll(resp.Body)
+		content, _ := io.ReadAll(resp.Body)
+		info = string(content)
+	} else {
+	    info = "(No context needed)"
+	}
 
 	// step 2: respond to user
 	prompt_2 := fmt.Sprintf(
 		string(must(os.ReadFile("prompt_2.txt"))),
-		string(info),
+		info,
 		userInput,
 	)
 
