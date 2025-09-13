@@ -1,0 +1,3 @@
+%s
+
+Looking at this output, respond to user's request "%s"
