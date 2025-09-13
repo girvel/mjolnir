@@ -1,3 +1,5 @@
 %s
 
-Looking at this output, respond to user's request "%s"
+Looking at this output, respond to user's request "%s".
+
+If the response is in Russian, respond in Russian.
