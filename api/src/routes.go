@@ -27,11 +27,18 @@ func (co *Controller) Sensors(c *gin.Context) {
 	co.Conn.QueryRow(context.Background(), `
 		SELECT value
 		FROM humidity
-		ORDER BY timestamp
+		ORDER BY timestamp DESC
 	`).Scan(&humidity)
 
+	var temperature float32
+	co.Conn.QueryRow(context.Background(), `
+		SELECT value
+		FROM temperature
+		ORDER BY timestamp DESC
+	`).Scan(&temperature)
+
 	c.JSON(http.StatusOK, SensorsOutput{
-		Temperature: 25.0,
+		Temperature: temperature,
 		Humidity: humidity,
 	})
 }

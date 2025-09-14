@@ -19,7 +19,7 @@ import (
 // @host thor1:8080
 
 func main() {
-	conn, err := pgx.Connect(context.Background(), "postgres://postgres:postgres@postgres:5432")
+	conn, err := pgx.Connect(context.Background(), "postgres://postgres:postgres@postgres:5432/home")
 	if err != nil {
 	    slog.Error("Unable to connect to database", "err", err)
 		os.Exit(1)
