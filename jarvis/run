@@ -1,0 +1,7 @@
+#!/usr/bin/sh
+export WHISPER_CPP_DIR="/home/nikita/workshop/whisper.cpp"
+export CGO_CFLAGS="-I${WHISPER_CPP_DIR}/include -I${WHISPER_CPP_DIR}/ggml/include"
+export CGO_LDFLAGS="-L${WHISPER_CPP_DIR}/build/src -L${WHISPER_CPP_DIR}/build/ggml/src -lwhisper"
+export LD_LIBRARY_PATH="${WHISPER_CPP_DIR}/build/src:${LD_LIBRARY_PATH}"
+#export LIBRARY_PATH="${WHISPER_CPP_DIR}/build/src"
+go run main.go
