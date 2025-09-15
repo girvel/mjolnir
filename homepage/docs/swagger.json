@@ -9,7 +9,7 @@
     "paths": {
         "/": {
             "get": {
-                "description": "Provides an overview of the server",
+                "description": "Provides an overview of the server, contains all general information about its capabilities and local network",
                 "produces": [
                     "text/html"
                 ],
