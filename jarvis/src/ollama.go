@@ -3,6 +3,7 @@ package jarvis
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
@@ -20,7 +21,7 @@ type ollamaResponse struct {
 }
 
 func Prompt(prompt string) string {
-	slog.Info("LLM prompted", "prompt", prompt)
+	slog.Info(fmt.Sprintf("LLM prompted:\n%s", prompt))
 
     ollamaReq := ollamaRequest{
         Model:  "llama3",
@@ -47,6 +48,6 @@ func Prompt(prompt string) string {
     }
 
     llmOutput := strings.TrimSpace(ollamaResp.Response)
-	slog.Info("LLM responded", "output", llmOutput)
+	slog.Info(fmt.Sprintf("LLM responded:\n%s", llmOutput))
 	return llmOutput
 }
