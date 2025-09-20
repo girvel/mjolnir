@@ -9,6 +9,24 @@
     <link rel="manifest" href="/static/favicon/site.webmanifest">-->
 </head>
 <body>
-    <audio controls src="static/audio/AWOLNATION - Party People (Official Visualizer) [rL1OyqQtFuk].m4a"></audio>
+    <audio id="player" controls src="static/audio/AWOLNATION - Party People.m4a"></audio>
+    <script>
+        const player = document.getElementById("player");
+        const nextTrack = () => {
+            player.src = "static/audio/Vibe Chemistry - Baddest.m4a";
+            player.autoplay = true;
+            if ('mediaSession' in navigator) {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: "Baddest",
+                    artist: "Vibe Chemistry",
+                });
+            }
+        };
+        player.addEventListener("ended", nextTrack);
+
+        if ('mediaSession' in navigator) {
+            navigator.mediaSession.setActionHandler("nexttrack", () => nextTrack());
+        }
+    </script>
 </body>
 </html>
