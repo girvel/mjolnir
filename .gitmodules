@@ -1,0 +1,3 @@
+[submodule "player/static/audio"]
+	path = player/static/audio
+	url = https://github.com/girvel/audio
