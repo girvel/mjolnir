@@ -9,11 +9,11 @@
     <link rel="manifest" href="/static/favicon/site.webmanifest">-->
 </head>
 <body>
-    <audio id="player" controls></audio>
+    <audio id="player" controls src="static/audio/AWOLNATION - Party People.m4a"></audio>
     <script src="/static/js/axios.min.js"></script>
-    <script type="module">
+    <script>
         const player = document.getElementById("player");
-        let playlist = (await axios.get("/api/playlist")).data;
+        let playlist;
         
         let playlistIndex = -1;
         const playNextTrack = () => {
@@ -35,7 +35,10 @@
             navigator.mediaSession.setActionHandler("nexttrack", () => playNextTrack());
         }
 
-        playNextTrack();
+        axios.get("/api/playlist").then((response) => {
+            playlist = response.data;
+            playNextTrack();
+        });
     </script>
 </body>
 </html>
