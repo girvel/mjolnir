@@ -9,24 +9,33 @@
     <link rel="manifest" href="/static/favicon/site.webmanifest">-->
 </head>
 <body>
-    <audio id="player" controls src="static/audio/AWOLNATION - Party People.m4a"></audio>
-    <script>
+    <audio id="player" controls></audio>
+    <script src="/static/js/axios.min.js"></script>
+    <script type="module">
         const player = document.getElementById("player");
-        const nextTrack = () => {
-            player.src = "static/audio/Vibe Chemistry - Baddest.m4a";
+        let playlist = (await axios.get("/api/playlist")).data;
+        
+        let playlistIndex = -1;
+        const playNextTrack = () => {
+            playlistIndex++;
+            const name = playlist.items[playlistIndex];
+            player.src = playlist.prefix + name;
             player.autoplay = true;
+
             if ('mediaSession' in navigator) {
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: "Baddest",
-                    artist: "Vibe Chemistry",
+                    title: name,
+                    //artist: "Vibe Chemistry",
                 });
             }
         };
-        player.addEventListener("ended", nextTrack);
 
+        player.addEventListener("ended", playNextTrack);
         if ('mediaSession' in navigator) {
-            navigator.mediaSession.setActionHandler("nexttrack", () => nextTrack());
+            navigator.mediaSession.setActionHandler("nexttrack", () => playNextTrack());
         }
+
+        playNextTrack();
     </script>
 </body>
 </html>
