@@ -1,52 +1,56 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gorhill/cronexpr"
 	"github.com/pelletier/go-toml"
 )
 
-func logic() error {
+func get_tasks() ([]string, error) {
     bytes, err := os.ReadFile("sample.toml")
 	if err != nil {
-	    return err
+	    return nil, err
 	}
 
     var schedule map[string]map[string]string
 	err = toml.Unmarshal(bytes, &schedule)
 	if err != nil {
-	    return err
+	    return nil, err
 	}
 
-	for cron_expression, children := range schedule {
-	    for id, name := range children {
-	        fmt.Println(cronexpr.MustParse(cron_expression).Next(time.Now()), id, name)
+	var result []string
+	for _, children := range schedule {
+	    for _, name := range children {
+			result = append(result, name)
 	    }
 	}
-	return nil
+	return result, nil
 }
 
 func index(c *gin.Context) {
     c.HTML(http.StatusOK, "index.tmpl", gin.H{})
 }
 
-func main() {
-	err := logic()
+func tasks_get(c *gin.Context) {
+    tasks, err := get_tasks()
 	if err != nil {
-	    panic(err)
+	    c.JSON(http.StatusInternalServerError, gin.H{})
+		return
 	}
 
+	c.JSON(http.StatusOK, gin.H{"tasks": tasks})
+}
+
+func main() {
     router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "./static")
 	router.Static("/shared", "../shared")
 
 	router.GET("/", index)
+	router.GET("/tasks/", tasks_get)
 
 	router.Run()
 }
