@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/gorhill/cronexpr"
 	"github.com/pelletier/go-toml"
 )
@@ -29,9 +31,21 @@ func logic() error {
 	return nil
 }
 
+func index(c *gin.Context) {
+    c.HTML(http.StatusOK, "index.tmpl", gin.H{})
+}
+
 func main() {
 	err := logic()
 	if err != nil {
 	    panic(err)
 	}
+
+    router := gin.Default()
+	router.LoadHTMLGlob("templates/*")
+	router.Static("/static", "./static")
+
+	router.GET("/", index)
+
+	router.Run()
 }
