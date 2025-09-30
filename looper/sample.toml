@@ -1,0 +1,38 @@
+# today
+["0 0 3 * * * *"]
+4d = "[today] 1 goal for today"
+19 = "[today] make the bed"
+22 = "[today] vitamin D, K; magnesium"
+29 = "[today] measure body weight"
+2e = "[today] update google calendar for the day"
+32 = "[!] meditation 1 minute"
+09 = "[today] look at todoist"
+
+# monday
+["0 0 3 * * Mon *"]
+26 = "refill tablet storage"
+
+# lenses
+["0 0 3 1,16 * * *"]
+04 = "[!] change lenses"
+
+# start of the month
+["0 0 3 1 * * *"]
+07 = "change toothbrush"
+0c = "choose Alfa cashback"
+
+# 2 months
+["0 0 3 15 */2 * *"]
+
+# monthly_not_winter
+["0 0 3 1 Apr-Oct * *"]
+
+# seasonal
+["0 0 3 15 Dec,Mar,Jun,Sep * *"]
+08 = "buy toothbrushes (3)"
+21 = "buy sponges (3), rags (3)"
+
+# each_four_months_shifted
+["0 0 3 15 Feb,May,Aug,Nov * *"]
+05 = "buy lenses"
+
