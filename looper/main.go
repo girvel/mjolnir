@@ -44,6 +44,7 @@ func main() {
     router := gin.Default()
 	router.LoadHTMLGlob("templates/*")
 	router.Static("/static", "./static")
+	router.Static("/shared", "../shared")
 
 	router.GET("/", index)
 

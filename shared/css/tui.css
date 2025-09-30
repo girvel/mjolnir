@@ -1,0 +1,31 @@
+@font-face {
+  font-family: JetBrains Mono;
+  src: url(/shared/fonts/JetBrainsMonoNerdFontMono-Regular.ttf);
+}
+
+body {
+  width: 800px;
+  background-color: #1a1b1e;
+  margin: 0 auto;
+  font-family: JetBrains Mono;
+  color: white;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li::before {
+  content: "- ";
+  white-space: pre;
+}
+
+li li::before {
+  content: "  - ";
+  white-space: pre;
+}
+
+a {
+  color: #49a1f8;
+}
