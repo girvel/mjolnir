@@ -6,6 +6,9 @@ axios.get("http://localhost:8080/tasks").then((resp) => {
 
     let input = document.createElement("input");
     input.type = "checkbox";
+    input.addEventListener("change", () => {
+      tasks.removeChild(div);
+    })
     div.appendChild(input);
 
     let text = document.createTextNode(" " + task);
