@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
+	"github.com/gorhill/cronexpr"
 	"github.com/pelletier/go-toml"
 )
 
@@ -19,7 +21,11 @@ func logic() error {
 	    return err
 	}
 
-	fmt.Println(schedule)
+	for cron_expression, children := range schedule {
+	    for id, name := range children {
+	        fmt.Println(cronexpr.MustParse(cron_expression).Next(time.Now()), id, name)
+	    }
+	}
 	return nil
 }
 
